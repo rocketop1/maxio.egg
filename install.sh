@@ -4,23 +4,23 @@ display() {
     echo -e "\033c"
     echo "
     ==========================================================================
-$(tput setaf 6) ⠀⠀⠀⠀⠀          ⠀       ⠀⠻⣷⣄
-$(tput setaf 6)⠀⠀⠀           ⠀  ⢀⣴⣿⣿⣿⡿⠋⠀⠹⣿⣦⡀
-$(tput setaf 6)⠀⠀            ⢀⣴⣿⣿⣿⣿⣏⠀⠀⠀⠀⠀⠀⢹⣿⣧
-$(tput setaf 6)⠀             ⠙⢿⣿⡿⠋⠻⣿⣿⣦⡀⠀⠀⠀⢸⣿⣿⡆
-$(tput setaf 6)⠀             ⠀⠀⠉⠀⠀⠀⠈⠻⣿⣿⣦⡀⠀⢸⣿⣿⡇
-$(tput setaf 6)⠀⠀⠀⠀            ⢀⣀⣄⡀⠀⠀⠈⠻⣿⣿⣶⣿⣿⣿⠁
-$(tput setaf 6)⠀⠀⠀            ⣠⣿⣿⢿⣿⣶⣶⣶⣶⣾⣿⣿⣿⣿⡁
-$(tput setaf 6)            ⢠⣶⣿⣿⠋⠀⠀⠉⠛⠿⠿⠿⠿⠿⠛⠻⣿⣿⣦⡀
-$(tput setaf 6)            ⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⡿   
+$(tput setaf 6) ⠀⠀⠀⠀⠀          ⠀       
+$(tput setaf 6)⠀⠀⠀           ⠀ 
+$(tput setaf 6)⠀⠀            
+$(tput setaf 6)⠀             
+$(tput setaf 6)⠀             ⠀⠀
+$(tput setaf 6)⠀⠀⠀⠀          
+$(tput setaf 6)⠀⠀⠀           
+$(tput setaf 6)           
+$(tput setaf 6)             
 $(tput setaf 6)  
 $(tput setaf 6)     
-$(tput setaf 6)   ☭ Народная армия непобедима!
+$(tput setaf 6)   
 $(tput setaf 6)  
 $(tput setaf 6)   
 $(tput setaf 6)    
-$(tput setaf 6) COPYRIGHT 2024 ReyoServers Technology (https://reyo.run) & https://github.com/AvexXS & https://github.com/beastgamer81
-$(tput setaf 6) Please note the egg is forked from KlovitEgg (This is essentially a better version for aternos like features and is maintained will be updated with new features)
+$(tput setaf 6) COPYRIGHT 2024 Qunatumhost.xyz Technology 
+$(tput setaf 6) 
 
     ==========================================================================
     "  
@@ -154,8 +154,8 @@ if [ ! -e "server.jar" ] && [ ! -e "nodejs" ] && [ ! -e "PocketMine-MP.phar" ]; 
 sleep 5
 echo "
   $(tput setaf 3)Which platform are you gonna use?
-  1) Paper             2) Purpur
-  3) BungeeCord        4) PocketmineMP
+  1)Paper (⁠・⁠o⁠・⁠)        2) Purpur(bugs) (⁠・⁠o⁠・⁠)
+  3)BungeeCord (⁠・⁠o⁠・⁠)  4) Pocket edition (⁠・⁠o⁠・⁠)
   "
 read -r n
 
