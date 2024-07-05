@@ -6,7 +6,7 @@
     },
     "exported_at": "2024-03-30T06:41:56+01:00",
     "name": "SovietEgg - Reyo",
-    "author": "avex@reyo.run",
+    "author": "lazycat@qt.xyz",
     "description": null,
     "features": null,
     "docker_images": {
@@ -35,7 +35,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/ash\r\n# Communism Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\napt update\r\napt-get install -y curl\r\ncd \/mnt\/server\r\ncurl -o install.sh https:\/\/raw.githubusercontent.com\/AvexXS\/SovietEgg\/main\/install.sh",
+            "script": "#!\/bin\/ash\r\n# Communism Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\napt update\r\napt-get install -y curl\r\ncd \/mnt\/server\r\ncurl -o install.sh https:\/\/raw.githubusercontent.com\/ErroR404\/maxio.egg\/main\/install.sh",
             "container": "debian:buster-slim",
             "entrypoint": "bash"
         }
