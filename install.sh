@@ -6,11 +6,17 @@ display() {
     ==========================================================================
 $(tput setaf 6) ⠀⠀⠀⠀⠀          ⠀       
 $(tput setaf 6)⠀⠀⠀           ⠀ 
-$(tput setaf 6)⠀⠀            
+$(tput setaf 6)⠀⠀           "QT"   
 $(tput setaf 6)⠀             
-$(tput setaf 6)⠀             ⠀⠀
-$(tput setaf 6)⠀⠀⠀⠀          
-$(tput setaf 6)⠀⠀⠀           
+$(tput setaf 6)⠀          ----------------------------
+$(tput setaf 6)⠀⠀⠀⠀           ******        ******* 
+                              *     *           *
+                              *     *           *
+                              *     *           *
+                               *****            *
+                                     *
+                                       *
+$(tput setaf 6)⠀⠀⠀         -------------------------
 $(tput setaf 6)           
 $(tput setaf 6)             
 $(tput setaf 6)  
