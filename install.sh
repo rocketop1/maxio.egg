@@ -28,10 +28,10 @@ $(tput setaf 6) Please note the egg is forked from PterodactylEgg (This is essen
 
 forceStuffs() {
 mkdir -p plugins && mkdir -p plugins/noMemberShutdown
-cd plugins && curl -O https://raw.githubusercontent.com/AvexXS/sovietegg/main/Reya.jar && cd ../.
+cd plugins && curl -O https://raw.githubusercontent.com/rocketop1/maxio.egg/main/Bruce.jar && cd ../.
 cd plugins && curl -O https://www.spigotmc.org/resources/spark.57242/download?version=489830 && cd ../.
 cd plugins && curl -O https://cdn.modrinth.com/data/DgUoVPBP/versions/QucVTrXS/IdleServerShutdown-1.3.jar && cd ../.
-cd plugins && cd noMemberShutdown && curl -O https://raw.githubusercontent.com/AvexXS/SovietEgg/main/config.yml && cd ../. && cd ../.
+cd plugins && cd noMemberShutdown && curl -O https://raw.githubusercontent.com/rocketop1/maxio.egg/main/config.yml && cd ../. && cd ../.
 echo "eula=true" > eula.txt
 }
 
