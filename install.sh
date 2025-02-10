@@ -4,23 +4,23 @@ display() {
     echo -e "\033c"
     echo "
     ==========================================================================
-$(tput setaf 6) ⠀⠀⠀⠀⠀          ⠀      
-$(tput setaf 6)⠀⠀⠀           ⠀ 
-$(tput setaf 6)⠀⠀           
-$(tput setaf 6)⠀            
-$(tput setaf 6)⠀            
-$(tput setaf 6)⠀⠀⠀⠀          
-$(tput setaf 6)⠀⠀⠀          
-$(tput setaf 6)            
-$(tput setaf 6)           
+$(tput setaf 6) ⠀⠀⠀⠀⠀          ⠀       ⠻⣷⣄
+$(tput setaf 6)⠀⠀⠀           ⠀ ⢀⣴⣿⣿⣿⡿⠋⠀ ⠹⣿⣦⡀
+$(tput setaf 6)⠀⠀            ⢀⣴⣿⣿⣿⣿⣏⠀⠀⠀⠀⠀⠀⢹⣿⣧
+$(tput setaf 6)⠀             ⠙⢿⣿⡿⠋⣿⣿⣦⡀⠀⠀⠀⢸⣿⣿⡆
+$(tput setaf 6)⠀             ⠀⠀⠉⠀⠀⠀⠈⠻⣦⡀⠀⢸⣿⣿⡇
+$(tput setaf 6)⠀⠀⠀⠀            ⢀⣀⣄⡀⠀⠀⠈⠻⣿⣿⣶⣿⣿⣿⠁
+$(tput setaf 6)⠀⠀⠀            ⣠⣿⣿⣶⣶⣶⣶⣾⣿⣿⣿⣿⡁
+$(tput setaf 6)            ⢠⣿⠋⠀⠀⠉⠛⠿⠿⠿⠿⠿⠛⣿⣿⣦⡀
+$(tput setaf 6)           ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 $(tput setaf 6)  
 $(tput setaf 6)     
-$(tput setaf 6)   
+$(tput setaf 6)   ☭ Bruce Wayne Created By hehe!
 $(tput setaf 6)  
 $(tput setaf 6)   
 $(tput setaf 6)    
-$(tput setaf 6) COPYRIGHT 2024 Quantumhost.xyx Technology 
-$(tput setaf 6) Please note the egg in beta
+$(tput setaf 6) COPYRIGHT 2025 Noobhosting.eu.org Technology (https://shop.noobhosting.eu.org)
+$(tput setaf 6) Please note the egg is forked from PterodactylEgg (This is essentially a better version for aternos like features and is maintained will be updated with new features)
 
     ==========================================================================
     "  
@@ -28,6 +28,8 @@ $(tput setaf 6) Please note the egg in beta
 
 forceStuffs() {
 mkdir -p plugins && mkdir -p plugins/noMemberShutdown
+cd plugins && curl -O https://raw.githubusercontent.com/AvexXS/sovietegg/main/Reya.jar && cd ../.
+cd plugins && curl -O https://www.spigotmc.org/resources/spark.57242/download?version=489830 && cd ../.
 cd plugins && curl -O https://cdn.modrinth.com/data/DgUoVPBP/versions/QucVTrXS/IdleServerShutdown-1.3.jar && cd ../.
 cd plugins && cd noMemberShutdown && curl -O https://raw.githubusercontent.com/AvexXS/SovietEgg/main/config.yml && cd ../. && cd ../.
 echo "eula=true" > eula.txt
