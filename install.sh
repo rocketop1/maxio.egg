@@ -34,7 +34,17 @@ forceStuffs() {
     if [ ! -f "server.jar" ]; then
         echo "server.jar not found! Downloading latest PaperMC build..."
         curl -o server.jar "https://api.papermc.io/v2/projects/paper/versions/$PAPER_VERSION/builds/latest/downloads/paper-$PAPER_VERSION.jar"
+
+        # Ensure the file is downloaded properly
+        if [ ! -s "server.jar" ]; then
+            echo "Error: server.jar download failed. Exiting..."
+            exit 1
+        fi
     fi
+
+    # Fix permissions to prevent access errors
+    chmod +x server.jar
+    chmod 777 server.jar
 
     echo "Setup complete!"
 }
