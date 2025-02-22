@@ -2,6 +2,7 @@
 
 # Set server memory (adjust as needed)
 SERVER_MEMORY=4096  # Set to your desired memory limit in MB
+PAPER_VERSION=1.20.4  # Change this to your desired PaperMC version
 
 forceStuffs() {
     echo "Setting up server plugins and configurations..."
@@ -28,6 +29,12 @@ forceStuffs() {
 
     # Accept Minecraft EULA
     echo "eula=true" > eula.txt
+
+    # Download server.jar if missing
+    if [ ! -f "server.jar" ]; then
+        echo "server.jar not found! Downloading latest PaperMC build..."
+        curl -o server.jar "https://api.papermc.io/v2/projects/paper/versions/$PAPER_VERSION/builds/latest/downloads/paper-$PAPER_VERSION.jar"
+    fi
 
     echo "Setup complete!"
 }
