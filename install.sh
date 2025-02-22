@@ -35,11 +35,11 @@ forceStuffs() {
 
     # Download hibernation-related plugins
     curl -O https://raw.githubusercontent.com/rocketop1/maxio.egg/main/Bruce.jar
-    curl -O https://www.spigotmc.org/resources/spark.57242/download?version=489830
-    curl -O https://cdn.modrinth.com/data/DgUoVPBP/versions/QucVTrXS/IdleServerShutdown-1.3.jar  # Alternative hibernation
-
+    curl -O https://cdn.modrinth.com/data/7KTcTCzs/versions/bMcXRaEu/FreezeHibernate-1.0.jar
+    curl -O https://cdn.modrinth.com/data/BQbKkmMm/versions/onDCme3b/DriveBackupV2.jar  # Alternative hibernation
+    curl -O https://cdn.modrinth.com/data/fD1X4Kwd/versions/HXeQqEBF/LagFixer.jar
     # Additional hibernation plugins (modify as needed)
-    curl -O https://www.spigotmc.org/resources/hibernate.4441/download?version=506703
+    curl -O https://cdn.modrinth.com/data/SjDWdFjp/versions/eeqgHGaT/EntityClearer.jar
 
     cd ..
 
