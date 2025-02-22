@@ -1,123 +1,50 @@
 #!/bin/bash
 
-display() {
-    echo -e "\033c"
-    echo "
-    ==========================================================================
-$(tput setaf 6) ⠀⠀⠀⠀⠀          ⠀       
-$(tput setaf 6)⠀⠀⠀           ⠀ 
-$(tput setaf 6)⠀⠀            . . . . .   . . . . . 
-$(tput setaf 6)⠀             .           .       . 
-$(tput setaf 6)⠀             .           .       . ⠀
-$(tput setaf 6)⠀⠀⠀⠀          . . . . .   . . . . .
-$(tput setaf 6)⠀⠀⠀           .           .       . 
-$(tput setaf 6)               .           .       . 
-$(tput setaf 6)           ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-$(tput setaf 6)  
-$(tput setaf 6)   ☭ Vansh Thakur Created By Disord id losing_here_now dm me!
-$(tput setaf 6)   
-$(tput setaf 6) COPYRIGHT 2025 FlexaHost Technology
-$(tput setaf 6) Please note the egg is forked from PterodactylEgg (This is essentially a better version for aternos like features and is maintained will be updated with new features)
-    ==========================================================================
-    "  
-}
+# Display header
+clear
+echo "========================================="
+echo "  Minecraft Paper Server Installer  "
+echo "  Fully Optimized with Hibernation "
+echo "========================================="
 
-forceStuffs() {
+# Create necessary directories
 mkdir -p plugins
-cd plugins
+mkdir -p config
 
-# Adding hibernation plugin
-curl -O https://cdn.modrinth.com/data/your-hibernation-plugin-url/hibernation-plugin.jar
+# Download PaperMC
+MINECRAFT_VERSION="1.20.1"
+LATEST_BUILD=$(curl -s https://api.papermc.io/v2/projects/paper/versions/${MINECRAFT_VERSION} | jq -r '.builds[-1]')
+JAR_NAME=paper-${MINECRAFT_VERSION}-${LATEST_BUILD}.jar
+DOWNLOAD_URL=https://api.papermc.io/v2/projects/paper/versions/${MINECRAFT_VERSION}/builds/${LATEST_BUILD}/downloads/${JAR_NAME}
 
-# Removing no player shutdown plugin
-rm -f IdleServerShutdown-1.3.jar
-
-# Other necessary plugins
-curl -O https://raw.githubusercontent.com/rocketop1/maxio.egg/main/Bruce.jar
-curl -O https://www.spigotmc.org/resources/spark.57242/download?version=489830
-
-cd ../.
-echo "eula=true" > eula.txt
-}
-
-# Install functions
-installJq() {
-if [ ! -e "tmp/jq" ]; then
-mkdir -p tmp
-curl -s -o tmp/jq -L https://github.com/jqlang/jq/releases/download/jq-1.7rc1/jq-linux-amd64
-chmod +x tmp/jq
-fi
-}
-
-# Other functions remain unchanged
-
-if [ ! -e "server.jar" ] && [ ! -e "nodejs" ] && [ ! -e "PocketMine-MP.phar" ]; then
-    display
-    sleep 5
-    echo "
-      $(tput setaf 3)Which platform are you gonna use?
-      1) Minecraft Paper             2) Minecraft Purpur
-      3) Minecraft BungeeCord        4) Minecraft PocketmineMP
-      "
-    read -r n
-
-    case $n in
-      1) 
-        sleep 1
-        echo "$(tput setaf 3)Starting the download for PaperMC ${MINECRAFT_VERSION} please wait"
-        sleep 4
-        forceStuffs
-        optimizeJavaServer
-        launchJavaServer
-      ;;
-      2)
-        sleep 1
-        echo "$(tput setaf 3)Starting the download for PurpurMC ${MINECRAFT_VERSION} please wait"
-        sleep 4
-        forceStuffs
-        optimizeJavaServer
-        launchJavaServer
-      ;;
-      3)
-        sleep 1
-        echo "$(tput setaf 3)Starting the download for Bungeecord latest please wait"
-        sleep 4
-        curl -o server.jar https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar
-        touch proxy
-        display
-        sleep 10
-        launchJavaServer proxy
-      ;;
-      4)
-        sleep 1
-        echo "$(tput setaf 3)Starting the download for PocketMine-MP ${PMMP_VERSION} please wait"
-        sleep 4
-        installPhp "stable" "$PMMP_VERSION"
-        installJq
-        DOWNLOAD_LINK=$(curl -sSL https://update.pmmp.io/api?channel="stable" | jq -r '.download_url')
-        curl --location --progress-bar "${DOWNLOAD_LINK}" --output PocketMine-MP.phar
-        display
-        launchPMMPServer
-      ;;
-      *) 
-        echo "Error 404"
-        exit
-      ;;
-    esac  
+if [ ! -f "server.jar" ]; then
+    echo "Downloading PaperMC ${MINECRAFT_VERSION}..."
+    curl -o server.jar "${DOWNLOAD_URL}"
 else
-    if [ -e "server.jar" ]; then
-        display   
-        forceStuffs
-        if [ -e "proxy" ]; then
-            launchJavaServer proxy
-        else
-            launchJavaServer
-        fi
-    elif [ -e "PocketMine-MP.phar" ]; then
-        display
-        launchPMMPServer
-    elif [ -e "nodejs" ]; then
-        display
-        launchNodeServer
-    fi
+    echo "PaperMC already exists, skipping download."
 fi
+
+# Accept EULA
+echo "eula=true" > eula.txt
+
+# Install hibernation plugin
+HIBERNATION_PLUGIN_URL="https://cdn.modrinth.com/data/DgUoVPBP/versions/QucVTrXS/IdleServerShutdown-1.3.jar"
+curl -o plugins/IdleServerShutdown.jar "$HIBERNATION_PLUGIN_URL"
+
+# Optimization tweaks
+echo "Applying optimizations..."
+echo "view-distance=6" >> server.properties
+echo "simulation-distance=4" >> server.properties
+
+# Java optimization flags
+JAVA_FLAGS="-Xms128M -Xmx${SERVER_MEMORY}M -XX:+UseG1GC -XX:+ParallelRefProcEnabled \
+  -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC \
+  -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M \
+  -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 \
+  -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 \
+  -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem \
+  -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true"
+
+# Launch server
+echo "Starting PaperMC Server..."
+java $JAVA_FLAGS -jar server.jar nogui
