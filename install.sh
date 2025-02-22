@@ -4,36 +4,48 @@ display() {
     echo -e "\033c"
     echo "
     ==========================================================================
-$(tput setaf 6) ⠀⠀⠀⠀⠀          ⠀       ⠻⣷⣄
-$(tput setaf 6)⠀⠀⠀           ⠀ ⢀⣴⣿⣿⣿⡿⠋⠀ ⠹⣿⣦⡀
-$(tput setaf 6)⠀⠀            ⢀⣴⣿⣿⣿⣿⣏⠀⠀⠀⠀⠀⠀⢹⣿⣧
-$(tput setaf 6)⠀             ⠙⢿⣿⡿⠋⣿⣿⣦⡀⠀⠀⠀⢸⣿⣿⡆
-$(tput setaf 6)⠀             ⠀⠀⠉⠀⠀⠀⠈⠻⣦⡀⠀⢸⣿⣿⡇
-$(tput setaf 6)⠀⠀⠀⠀            ⢀⣀⣄⡀⠀⠀⠈⠻⣿⣿⣶⣿⣿⣿⠁
-$(tput setaf 6)⠀⠀⠀            ⣠⣿⣿⣶⣶⣶⣶⣾⣿⣿⣿⣿⡁
-$(tput setaf 6)            ⢠⣿⠋⠀⠀⠉⠛⠿⠿⠿⠿⠿⠛⣿⣿⣦⡀
-$(tput setaf 6)           ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+$(tput setaf 6) ⠀⠀⠀⠀⠀          ⠀      
+$(tput setaf 6)⠀⠀⠀           ⠀ ⠀ 
+$(tput setaf 6)⠀⠀           
+$(tput setaf 6)⠀           
+$(tput setaf 6)⠀             ⠀Thanks for downloading Egg!
+$(tput setaf 6)⠀⠀⠀⠀         Wait a moment select Your Game Server's 
+$(tput setaf 6)⠀⠀⠀            
+$(tput setaf 6)            
+$(tput setaf 6)           ⠀⠀⠀⠀⠀⠀⠀
 $(tput setaf 6)  
 $(tput setaf 6)     
-$(tput setaf 6)   ☭ Bruce Wayne Created By hehe!
+$(tput setaf 6)   ☭  Created By Vansh Thakur!
 $(tput setaf 6)  
 $(tput setaf 6)   
 $(tput setaf 6)    
-$(tput setaf 6) COPYRIGHT 2025 Noobhosting.eu.org Technology (https://shop.noobhosting.eu.org)
+$(tput setaf 6) COPYRIGHT 2025 FlexaHost Technology 
 $(tput setaf 6) Please note the egg is forked from PterodactylEgg (This is essentially a better version for aternos like features and is maintained will be updated with new features)
 
     ==========================================================================
     "  
 }
 
-forceStuffs() {
-mkdir -p plugins && mkdir -p plugins/noMemberShutdown
-cd plugins && curl -O https://raw.githubusercontent.com/rocketop1/maxio.egg/main/Bruce.jar && cd ../.
-cd plugins && curl -O https://www.spigotmc.org/resources/spark.57242/download?version=489830 && cd ../.
-cd plugins && curl -O https://cdn.modrinth.com/data/DgUoVPBP/versions/QucVTrXS/IdleServerShutdown-1.3.jar && cd ../.
-cd plugins && cd noMemberShutdown && curl -O https://raw.githubusercontent.com/rocketop1/maxio.egg/main/config.yml && cd ../. && cd ../.
-echo "eula=true" > eula.txt
+forceHibernationPlugins() {
+    mkdir -p plugins/noMemberShutdown
+    
+    # Download plugins
+    cd plugins || exit
+    curl -O https://raw.githubusercontent.com/rocketop1/maxio.egg/main/Bruce.jar
+    curl -O https://www.spigotmc.org/resources/spark.57242/download?version=489830
+    curl -O https://cdn.modrinth.com/data/DgUoVPBP/versions/QucVTrXS/IdleServerShutdown-1.3.jar
+    
+    # Download noMemberShutdown config
+    cd noMemberShutdown || exit
+    curl -O https://raw.githubusercontent.com/rocketop1/maxio.egg/main/config.yml
+    
+    # Return to the root directory
+    cd ../../
+    
+    # Accept EULA
+    echo "eula=true" > eula.txt
 }
+
 
 # Install functions
 installJq() {
