@@ -1,81 +1,123 @@
 #!/bin/bash
 
-# Set server memory (adjust as needed)
-SERVER_MEMORY=4096  # Set to your desired memory limit in MB
-PAPER_VERSION=1.20.4  # Change this to your desired PaperMC version
+display() {
+    echo -e "\033c"
+    echo "
+    ==========================================================================
+$(tput setaf 6) ⠀⠀⠀⠀⠀          ⠀       
+$(tput setaf 6)⠀⠀⠀           ⠀ 
+$(tput setaf 6)⠀⠀            . . . . .   . . . . . 
+$(tput setaf 6)⠀             .           .       . 
+$(tput setaf 6)⠀             .           .       . ⠀
+$(tput setaf 6)⠀⠀⠀⠀          . . . . .   . . . . .
+$(tput setaf 6)⠀⠀⠀           .           .       . 
+$(tput setaf 6)               .           .       . 
+$(tput setaf 6)           ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+$(tput setaf 6)  
+$(tput setaf 6)   ☭ Vansh Thakur Created By Disord id losing_here_now dm me!
+$(tput setaf 6)   
+$(tput setaf 6) COPYRIGHT 2025 FlexaHost Technology
+$(tput setaf 6) Please note the egg is forked from PterodactylEgg (This is essentially a better version for aternos like features and is maintained will be updated with new features)
+    ==========================================================================
+    "  
+}
 
 forceStuffs() {
-    echo "Setting up server plugins and configurations..."
+mkdir -p plugins
+cd plugins
 
-    # Create required directories
-    mkdir -p plugins && mkdir -p plugins/noMemberShutdown
-    cd plugins 
+# Adding hibernation plugin
+curl -O https://cdn.modrinth.com/data/your-hibernation-plugin-url/hibernation-plugin.jar
 
-    # Download essential plugins
-    echo "Downloading plugins..."
-    curl -LO https://raw.githubusercontent.com/rocketop1/maxio.egg/main/Bruce.jar
-    curl -Lo spark.jar https://www.spigotmc.org/resources/spark.57242/download?version=489830
-    curl -Lo IdleServerShutdown.jar https://cdn.modrinth.com/data/DgUoVPBP/versions/QucVTrXS/IdleServerShutdown-1.3.jar
+# Removing no player shutdown plugin
+rm -f IdleServerShutdown-1.3.jar
 
-    # Download Minecraft Hibernation Plugin
-    curl -Lo Hibernation.jar https://github.com/Minebench/Hibernation/releases/latest/download/Hibernation.jar
+# Other necessary plugins
+curl -O https://raw.githubusercontent.com/rocketop1/maxio.egg/main/Bruce.jar
+curl -O https://www.spigotmc.org/resources/spark.57242/download?version=489830
 
-    cd ../.
-    
-    # Configuration for noMemberShutdown
-    cd plugins/noMemberShutdown
-    curl -LO https://raw.githubusercontent.com/rocketop1/maxio.egg/main/config.yml
-    cd ../. && cd ../.
+cd ../.
+echo "eula=true" > eula.txt
+}
 
-    # Accept Minecraft EULA
-    echo "eula=true" > eula.txt
+# Install functions
+installJq() {
+if [ ! -e "tmp/jq" ]; then
+mkdir -p tmp
+curl -s -o tmp/jq -L https://github.com/jqlang/jq/releases/download/jq-1.7rc1/jq-linux-amd64
+chmod +x tmp/jq
+fi
+}
 
-    # Download server.jar if missing
-    if [ ! -f "server.jar" ]; then
-        echo "server.jar not found! Downloading latest PaperMC build..."
-        curl -o server.jar "https://api.papermc.io/v2/projects/paper/versions/$PAPER_VERSION/builds/latest/downloads/paper-$PAPER_VERSION.jar"
+# Other functions remain unchanged
 
-        # Ensure the file is downloaded properly
-        if [ ! -s "server.jar" ]; then
-            echo "Error: server.jar download failed. Exiting..."
-            exit 1
+if [ ! -e "server.jar" ] && [ ! -e "nodejs" ] && [ ! -e "PocketMine-MP.phar" ]; then
+    display
+    sleep 5
+    echo "
+      $(tput setaf 3)Which platform are you gonna use?
+      1) Minecraft Paper             2) Minecraft Purpur
+      3) Minecraft BungeeCord        4) Minecraft PocketmineMP
+      "
+    read -r n
+
+    case $n in
+      1) 
+        sleep 1
+        echo "$(tput setaf 3)Starting the download for PaperMC ${MINECRAFT_VERSION} please wait"
+        sleep 4
+        forceStuffs
+        optimizeJavaServer
+        launchJavaServer
+      ;;
+      2)
+        sleep 1
+        echo "$(tput setaf 3)Starting the download for PurpurMC ${MINECRAFT_VERSION} please wait"
+        sleep 4
+        forceStuffs
+        optimizeJavaServer
+        launchJavaServer
+      ;;
+      3)
+        sleep 1
+        echo "$(tput setaf 3)Starting the download for Bungeecord latest please wait"
+        sleep 4
+        curl -o server.jar https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar
+        touch proxy
+        display
+        sleep 10
+        launchJavaServer proxy
+      ;;
+      4)
+        sleep 1
+        echo "$(tput setaf 3)Starting the download for PocketMine-MP ${PMMP_VERSION} please wait"
+        sleep 4
+        installPhp "stable" "$PMMP_VERSION"
+        installJq
+        DOWNLOAD_LINK=$(curl -sSL https://update.pmmp.io/api?channel="stable" | jq -r '.download_url')
+        curl --location --progress-bar "${DOWNLOAD_LINK}" --output PocketMine-MP.phar
+        display
+        launchPMMPServer
+      ;;
+      *) 
+        echo "Error 404"
+        exit
+      ;;
+    esac  
+else
+    if [ -e "server.jar" ]; then
+        display   
+        forceStuffs
+        if [ -e "proxy" ]; then
+            launchJavaServer proxy
+        else
+            launchJavaServer
         fi
+    elif [ -e "PocketMine-MP.phar" ]; then
+        display
+        launchPMMPServer
+    elif [ -e "nodejs" ]; then
+        display
+        launchNodeServer
     fi
-
-    # Fix permissions to prevent access errors
-    chmod +x server.jar
-    chmod 777 server.jar
-
-    echo "Setup complete!"
-}
-
-launchJavaServer() {
-    echo "Starting Minecraft server..."
-
-    # Reduce allocated memory by 200MB to prevent freezes
-    number=200
-    memory=$((SERVER_MEMORY - number))
-
-    # Check if Hibernation plugin is installed
-    if [ -f "plugins/Hibernation.jar" ]; then
-        echo "Hibernation plugin detected. Enabling server sleep mode..."
-        java -Xms128M -Xmx${memory}M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar server.jar nogui &
-
-        # Monitor server for shutdown and enter sleep mode
-        while true; do
-            if ! pgrep -f "server.jar" > /dev/null; then
-                echo "Server has stopped. Entering hibernation mode..."
-                sleep 10
-            else
-                sleep 5
-            fi
-        done
-    else
-        echo "Launching Minecraft server without hibernation..."
-        java -Xms128M -Xmx${memory}M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar server.jar nogui
-    fi
-}
-
-# Main execution
-forceStuffs
-launchJavaServer
+fi
